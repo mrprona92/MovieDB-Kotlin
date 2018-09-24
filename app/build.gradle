@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -25,6 +24,11 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    apply plugin: 'kotlin-android-extensions'
+    androidExtensions {
+        experimental = true
+    }
 
     String archVersion = '1.0.0'
     implementation "android.arch.lifecycle:runtime:1.1.1"
