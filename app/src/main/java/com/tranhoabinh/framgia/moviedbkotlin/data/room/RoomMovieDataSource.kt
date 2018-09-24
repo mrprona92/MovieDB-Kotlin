@@ -9,15 +9,15 @@ import com.tranhoabinh.framgia.moviedbkotlin.data.model.Movie
 @Database(
         entities = arrayOf(Movie::class),
         version = 1)
-abstract class RoomCurrencyDataSource : RoomDatabase() {
+abstract class RoomMovieDataSource : RoomDatabase() {
 
     abstract fun movieDao(): RoomMovieDao
 
     companion object {
-        fun buildPersistentCurrency(context: Context): RoomCurrencyDataSource = Room.databaseBuilder(
+        fun buildPersistentMovie(context: Context): RoomMovieDataSource = Room.databaseBuilder(
                 context.applicationContext,
-                RoomCurrencyDataSource::class.java,
-                RoomContract.DATABASE_CURRENCY
+                RoomMovieDataSource::class.java,
+                RoomContract.DATABASE_MOVIE
         ).build()
 
     }
