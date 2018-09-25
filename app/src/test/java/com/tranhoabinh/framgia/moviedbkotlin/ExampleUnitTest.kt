@@ -1,4 +1,4 @@
-package com.tranhoabinh.framgia.moviedb_kotlin
+package com.tranhoabinh.framgia.moviedbkotlin
 
 import org.junit.Test
 
