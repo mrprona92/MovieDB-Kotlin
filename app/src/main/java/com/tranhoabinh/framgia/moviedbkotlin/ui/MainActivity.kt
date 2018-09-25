@@ -1,7 +1,8 @@
-package com.tranhoabinh.framgia.moviedbkotlin
+package com.tranhoabinh.framgia.moviedbkotlin.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.tranhoabinh.framgia.moviedbkotlin.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
