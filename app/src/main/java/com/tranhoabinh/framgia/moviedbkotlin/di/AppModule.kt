@@ -1,13 +1,10 @@
 package com.tranhoabinh.framgia.moviedbkotlin.di
 
-import android.content.Context
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import android.content.res.Resources
+import org.koin.dsl.module.module
 
-@Module
-class AppModule(private val movieDBApplication: MovieDBApplication) {
-
-  @Provides @Singleton fun provideContext(): Context = movieDBApplication
-
+val appModule = module(override = true) {
+    single { createResources(get()) }
 }
+
+fun createResources(application: MovieDBApplication): Resources = application.resources
