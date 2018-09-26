@@ -9,7 +9,7 @@ interface RemoteMovieService {
 
     @GET(RemoteContract.MOVIELIST)
     fun requestMovies(
-            @Query(RemoteContract.PAGE) page: String
+            @Query(RemoteContract.PAGE) page: Int
     ): Single<GetMoviesResponse>
 }
 

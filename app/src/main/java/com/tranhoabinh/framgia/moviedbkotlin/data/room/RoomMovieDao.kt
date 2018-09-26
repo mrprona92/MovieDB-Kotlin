@@ -1,6 +1,6 @@
 package com.tranhoabinh.framgia.moviedbkotlin.data.room
 
-import android.arch.persistence.room.Dao
+import androidx.room.Dao
 
 @Dao
 interface RoomMovieDao
