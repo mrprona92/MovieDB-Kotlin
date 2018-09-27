@@ -1,6 +1,6 @@
 package com.tranhoabinh.framgia.moviedbkotlin.core
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -24,5 +24,13 @@ abstract class BaseViewModel : ViewModel() {
 
     fun onActivityDestroyed() {
         compositeDisposable.clear()
+    }
+
+
+    open fun onLoadSuccess() {
+    }
+
+    open fun onLoadFail(e: Throwable) {
+        showError(e)
     }
 }

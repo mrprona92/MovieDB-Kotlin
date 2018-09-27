@@ -1,7 +1,7 @@
 package com.tranhoabinh.framgia.moviedbkotlin.ui
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.tranhoabinh.framgia.moviedbkotlin.R
 
 class MainActivity : AppCompatActivity() {
