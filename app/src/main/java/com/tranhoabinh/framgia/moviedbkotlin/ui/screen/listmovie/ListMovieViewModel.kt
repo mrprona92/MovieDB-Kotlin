@@ -2,11 +2,11 @@ package com.quanda.moviedb.ui.screen.movie
 
 import com.tranhoabinh.framgia.moviedbkotlin.core.BaseListViewModel
 import com.tranhoabinh.framgia.moviedbkotlin.data.model.Movie
-import com.tranhoabinh.framgia.moviedbkotlin.data.repository.RepositoryImpl
+import com.tranhoabinh.framgia.moviedbkotlin.data.repository.Repository
 
 
 class MovieListViewModel constructor(
-        private val repository: RepositoryImpl
+        private val repository: Repository
 ) : BaseListViewModel<Movie>() {
 
     override fun requestData(page: Int) {

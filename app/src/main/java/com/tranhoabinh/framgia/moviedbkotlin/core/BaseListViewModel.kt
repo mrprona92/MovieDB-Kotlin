@@ -21,7 +21,8 @@ abstract class BaseListViewModel<T> : BaseViewModel() {
     abstract fun requestData(page: Int)
 
     fun loadMore() {
-        currentPage.value?.plus(1)?.let { requestData(it) }
+        //TODO
+        // currentPage.value?.plus(1)?.let { requestData(it) }
     }
 
     fun onLoadSuccess(listSize: Int) {
