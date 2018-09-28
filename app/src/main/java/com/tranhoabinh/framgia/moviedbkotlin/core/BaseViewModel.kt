@@ -27,10 +27,10 @@ abstract class BaseViewModel : ViewModel() {
     }
 
 
-    open fun onLoadSuccess() {
-    }
-
     open fun onLoadFail(e: Throwable) {
+        isLoading.value = false
         showError(e)
     }
+
+    abstract fun onLoadSuccess()
 }

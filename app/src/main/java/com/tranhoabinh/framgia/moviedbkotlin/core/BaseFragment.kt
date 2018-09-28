@@ -21,6 +21,9 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding, ViewModel : BaseViewM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+        binding.setLifecycleOwner(this)
+        binding.root.isClickable = true
+        initContent(binding)
         return binding.root
     }
 
@@ -37,4 +40,6 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding, ViewModel : BaseViewM
         super.onDestroy()
         viewModel.onActivityDestroyed()
     }
- }
+
+    abstract fun initContent(viewBinding: ViewBinding)
+}

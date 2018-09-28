@@ -13,5 +13,4 @@ abstract class BaseListFragment<View : ViewDataBinding, ViewModel : BaseListView
 
     override val layoutId: Int
         get() = R.layout.fragment_list_item
-
 }

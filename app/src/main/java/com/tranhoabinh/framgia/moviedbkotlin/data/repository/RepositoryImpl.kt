@@ -7,7 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class RepositoryImpl constructor(
-        val remoteMovieService: RemoteMovieService
+        private val remoteMovieService: RemoteMovieService
 ) : Repository {
 
     override fun getMovieList(page: Int): Single<GetMoviesResponse> {
