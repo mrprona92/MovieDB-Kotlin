@@ -32,5 +32,8 @@ abstract class BaseViewModel : ViewModel() {
         showError(e)
     }
 
-    abstract fun onLoadSuccess()
+    open fun onLoadSuccess(page: Int) {
+        isLoading.value = false
+    }
+
 }

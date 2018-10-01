@@ -1,12 +1,10 @@
 package com.tranhoabinh.framgia.moviedbkotlin.ui.screen.listmovie
 
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.quanda.moviedb.ui.base.BaseListFragment
-import com.quanda.moviedb.ui.screen.movie.MovieListViewModel
 import com.tranhoabinh.framgia.moviedbkotlin.BR
+import com.tranhoabinh.framgia.moviedbkotlin.core.BaseListFragment
 import com.tranhoabinh.framgia.moviedbkotlin.data.model.Movie
 import com.tranhoabinh.framgia.moviedbkotlin.databinding.FragmentListItemBinding
 import com.tranhoabinh.framgia.moviedbkotlin.ui.MainActivity
@@ -36,8 +34,8 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, MovieListVie
             val listMovieAdapter = ListMovieAdapter(this@ListMovieFragment)
             val lineaLayoutManager = LinearLayoutManager(context)
             var endlessScrollListener: EndlessScrollListener = object : EndlessScrollListener(lineaLayoutManager) {
-                override fun onLoadMore(current_page: Int) {
-                    viewModel.loadMore(current_page)
+                override fun onLoadMore(currentPage: Int) {
+                    viewModel.loadMore(currentPage)
                 }
             }
 
@@ -61,6 +59,10 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, MovieListVie
             viewBinding.swipeRefresh.apply {
                 isRefreshing = it == true
             }
+        })
+
+        viewModel.errorMessage.observe(this, Observer {
+            showErrorToast(it)
         })
     }
 

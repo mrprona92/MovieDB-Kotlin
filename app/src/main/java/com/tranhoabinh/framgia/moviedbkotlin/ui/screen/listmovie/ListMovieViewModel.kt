@@ -1,4 +1,4 @@
-package com.quanda.moviedb.ui.screen.movie
+package com.tranhoabinh.framgia.moviedbkotlin.ui.screen.listmovie
 
 import com.tranhoabinh.framgia.moviedbkotlin.core.BaseListViewModel
 import com.tranhoabinh.framgia.moviedbkotlin.data.model.Movie
@@ -21,8 +21,7 @@ class MovieListViewModel constructor(
                         }
                         .subscribe({ items ->
                             listItem.value = items.results
-                            listItem.value?.size?.let { onLoadSuccess() }
+                            listItem.value?.size?.let { onLoadSuccess(page) }
                         }, { e -> onLoadFail(e) }))
-
     }
 }

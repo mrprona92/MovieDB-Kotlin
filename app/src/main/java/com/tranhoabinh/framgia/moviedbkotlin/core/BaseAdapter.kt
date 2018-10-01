@@ -10,8 +10,8 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BaseViewHolder<View
     var items: MutableList<T> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ViewDataBinding> {
-        return BaseViewHolder(createBinding(parent = parent, viewType = viewType)).listen { pos, type ->
-            val item = items.get(pos)
+        return BaseViewHolder(createBinding(parent = parent, viewType = viewType)).listen { position, type ->
+            val item = items.get(position)
             handleClick(item)
         }
     }

@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 class BaseViewHolder<out T : ViewDataBinding> constructor(val binding: T) : RecyclerView.ViewHolder(binding.root)
 
-fun <T : RecyclerView.ViewHolder> T.listen(event: (position: Int, type: Int) -> Unit): T {
+fun <T : RecyclerView.ViewHolder> T.listen(OnItemClick: (position: Int, type: Int) -> Unit): T {
     itemView.setOnClickListener {
-        event.invoke(adapterPosition, itemViewType)
+        OnItemClick.invoke(adapterPosition, itemViewType)
     }
     return this
 }

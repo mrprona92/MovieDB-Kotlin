@@ -1,6 +1,6 @@
 package com.tranhoabinh.framgia.moviedbkotlin.di
 
-import com.quanda.moviedb.ui.screen.movie.MovieListViewModel
+import com.tranhoabinh.framgia.moviedbkotlin.ui.screen.listmovie.MovieListViewModel
 import com.tranhoabinh.framgia.moviedbkotlin.ui.MainActivityViewModel
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
