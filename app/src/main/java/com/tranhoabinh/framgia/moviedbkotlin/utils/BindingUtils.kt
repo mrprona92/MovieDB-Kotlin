@@ -17,14 +17,15 @@ object Constant {
     const val IMAGE_URL = "https://image.tmdb.org/t/p/"
 }
 
-@BindingAdapter(value = ["loadImage", "placeholder", "fitCenter"],
+@BindingAdapter(value = ["loadImage", "placeholder", "fitCenter", "centerCrop"],
         requireAll = false)
-fun ImageView.setImageUrl(url: String?, placeholder: Drawable?, fitCenter: Boolean?) {
+fun ImageView.setImageUrl(url: String?, placeholder: Drawable?, fitCenter: Boolean?, centerCrop: Boolean?) {
     val options = RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
     if (TextUtils.isEmpty(url)) {
         setImageDrawable(placeholder)
     } else {
         fitCenter?.apply { if (fitCenter) options.fitCenter() }
+        centerCrop?.apply { if (centerCrop) options.centerCrop() }
         val imageUrl: String = Constant.IMAGE_URL + MoviePosterSize.SIZE_5 + "/" + url
         Glide.with(context).load(imageUrl).apply(options).into(this)
     }

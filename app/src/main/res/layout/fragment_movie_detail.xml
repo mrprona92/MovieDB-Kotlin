@@ -1,18 +1,110 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <import type="android.view.View" />
 
         <variable
             name="viewModel"
             type="com.tranhoabinh.framgia.moviedbkotlin.ui.screen.moviedetail.MovieDetailViewModel" />
+
+        <import type="com.tranhoabinh.framgia.moviedbkotlin.R" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--TODO add layout-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgMovieFull"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp_0"
+            android:layout_marginEnd="@dimen/dp_0"
+            app:layout_constraintDimensionRatio="h,9:16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/full_image"
+            bind:centerCrop="@{ true }"
+            bind:loadImage="@{ viewModel.fullPath }"
+            bind:placeholder="@{ R.drawable.ic_launcher_background }" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgPoster"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_150"
+            android:layout_marginStart="@dimen/dp_0"
+            android:layout_marginTop="@dimen/dp_0"
+            app:layout_constraintBottom_toBottomOf="@+id/imgMovieFull"
+            app:layout_constraintDimensionRatio="w,400:576"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_start"
+            app:layout_constraintTop_toBottomOf="@+id/imgMovieFull"
+            app:layout_constraintVertical_bias="0.52"
+            bind:fitCenter="@{ true }"
+            bind:loadImage="@{  viewModel.posterPath }"
+            bind:placeholder="@{ R.drawable.ic_launcher_background }" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_vertical_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.041666668" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtMovieTitle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:text="@{ viewModel.title }"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/green"
+            android:ellipsize="end"
+            android:lines="2"
+            app:layout_constraintEnd_toStartOf="@+id/btnFavorite"
+            app:layout_constraintStart_toEndOf="@+id/imgPoster"
+            app:layout_constraintTop_toBottomOf="@+id/imgMovieFull"
+            tools:text="The Noon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtReleaseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@{ viewModel.releaseDate }"
+            app:layout_constraintStart_toEndOf="@+id/imgPoster"
+            app:layout_constraintTop_toBottomOf="@+id/txtMovieTitle"
+            tools:text="September 2018" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnFavorite"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="@color/white"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgMovieFull"
+            app:srcCompat="@drawable/ic_favorite" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtOverview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:text="@{ viewModel.overview }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgPoster"
+            tools:text="The horror movie" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
