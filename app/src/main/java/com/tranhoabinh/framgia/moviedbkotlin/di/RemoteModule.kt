@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder
 import com.tranhoabinh.framgia.moviedbkotlin.BuildConfig
 import com.tranhoabinh.framgia.moviedbkotlin.data.remote.RemoteContract
 import com.tranhoabinh.framgia.moviedbkotlin.data.remote.RemoteMovieService
+import com.tranhoabinh.framgia.moviedbkotlin.data.repository.Repository
+import com.tranhoabinh.framgia.moviedbkotlin.data.repository.RepositoryImpl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,6 +21,7 @@ val remoteModule = module(override = true) {
     single { createHeaderInterceptor() }
     single { createRetrofit(get(), get()) }
     single { createRemoteMovieService(get()) }
+    single<Repository> { RepositoryImpl(get()) }
 }
 
 
