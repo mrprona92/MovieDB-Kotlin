@@ -36,7 +36,7 @@ abstract class EndlessScrollListener(private val mLinearLayoutManager: LinearLay
         }
     }
 
-    abstract fun onLoadMore(current_page: Int)
+    abstract fun onLoadMore(currentPage: Int)
 
     fun resetIndex() {
         currentPage = 1
