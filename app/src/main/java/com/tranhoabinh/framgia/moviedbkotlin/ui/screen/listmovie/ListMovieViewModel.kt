@@ -7,7 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class MovieListViewModel constructor(
+class ListMovieViewModel constructor(
         private val repository: Repository
 ) : BaseListViewModel<Movie>() {
 

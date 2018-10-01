@@ -4,14 +4,16 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tranhoabinh.framgia.moviedbkotlin.BR
+import com.tranhoabinh.framgia.moviedbkotlin.R
 import com.tranhoabinh.framgia.moviedbkotlin.core.BaseListFragment
 import com.tranhoabinh.framgia.moviedbkotlin.data.model.Movie
 import com.tranhoabinh.framgia.moviedbkotlin.databinding.FragmentListItemBinding
 import com.tranhoabinh.framgia.moviedbkotlin.ui.MainActivity
+import com.tranhoabinh.framgia.moviedbkotlin.ui.screen.moviedetail.MovieDetailFragment
 import com.tranhoabinh.framgia.moviedbkotlin.utils.EndlessScrollListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ListMovieFragment : BaseListFragment<FragmentListItemBinding, MovieListViewModel, Movie>(), ListMovieAdapter.OnItemClick, SwipeRefreshLayout.OnRefreshListener {
+class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieViewModel, Movie>(), ListMovieAdapter.OnItemClick, SwipeRefreshLayout.OnRefreshListener {
     companion object {
         const val TAG = "ListMovieFragment"
 
@@ -21,7 +23,7 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, MovieListVie
     override val bindingVariable: Int
         get() = BR.viewModel
 
-    override val viewModel by viewModel<MovieListViewModel>()
+    override val viewModel by viewModel<ListMovieViewModel>()
 
 
     override fun initContent(viewBinding: FragmentListItemBinding) {
@@ -38,7 +40,6 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, MovieListVie
                     viewModel.loadMore(currentPage)
                 }
             }
-
 
             viewBinding.recyclerView.apply {
                 layoutManager = lineaLayoutManager
@@ -69,7 +70,9 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, MovieListVie
     override fun onMovieClick(movie: Movie) {
         if (activity is MainActivity)
             (activity as MainActivity).apply {
-                //TODO show details movie
+                val movieDetailFragment = MovieDetailFragment.newInstance(movie.id)
+                replaceFragmentAddToBackStack(movieDetailFragment,
+                        R.id.container, MovieDetailFragment.TAG)
             }
     }
 

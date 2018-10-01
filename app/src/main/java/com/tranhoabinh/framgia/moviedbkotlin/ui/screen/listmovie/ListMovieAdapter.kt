@@ -12,11 +12,16 @@ import com.tranhoabinh.framgia.moviedbkotlin.databinding.ItemMoviedbBinding
 class ListMovieAdapter(private val listener: OnItemClick)
     : BaseRecyclerAdapter<Movie>() {
 
-    override fun createBinding(parent: ViewGroup, viewType: Int?): ViewDataBinding =
-            DataBindingUtil.inflate<ItemMoviedbBinding>(
-                    LayoutInflater.from(parent.context),
-                    getLayoutRes(),
-                    parent, false)
+
+    override fun createBinding(parent: ViewGroup, viewType: Int?): ViewDataBinding {
+        val viewDataBinding = DataBindingUtil.inflate<ItemMoviedbBinding>(
+                LayoutInflater.from(parent.context),
+                getLayoutRes(),
+                parent, false)
+        viewDataBinding.onClick = listener
+        return viewDataBinding
+    }
+
 
     override fun bind(binding: ViewDataBinding, item: Movie) {
         if (binding is ItemMoviedbBinding) {
