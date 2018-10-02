@@ -1,24 +1,21 @@
 package com.tranhoabinh.framgia.moviedbkotlin.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.tranhoabinh.framgia.moviedbkotlin.R
 import com.tranhoabinh.framgia.moviedbkotlin.core.BaseActivity
 import com.tranhoabinh.framgia.moviedbkotlin.ui.screen.listmovie.ListMovieFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
     override fun getLayout(): Int = R.layout.activity_main
     override fun initComponent(savedInstanceState: Bundle?) {
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
+        val drawer = drawer_layout as DrawerLayout
         val toggle = ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.app_name, R.string.app_name)
         drawer.addDrawerListener(toggle)

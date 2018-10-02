@@ -36,8 +36,10 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
     override fun initContent(viewBinding: FragmentMovieDetailBinding) {
         viewBinding.viewModel = viewModel
         movieId = arguments?.getString(MOVIE_ID) ?: ""
-        viewModel.apply { requestMovieDetail(movieId) }
-        viewModel.apply { requestCheckFavorite(movieId) }
+        viewModel.apply {
+            requestMovieDetail(movieId)
+            requestCheckFavorite(movieId)
+        }
     }
 
     override fun onRefresh() {

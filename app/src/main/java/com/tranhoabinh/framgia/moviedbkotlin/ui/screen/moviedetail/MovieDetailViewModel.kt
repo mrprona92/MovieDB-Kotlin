@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
 class MovieDetailViewModel constructor(
         private val repository: Repository
 ) : BaseViewModel() {
-    val movie = MutableLiveData<Movie>().apply { value = null }
+    val movie = MutableLiveData<Movie>()
     val title = MutableLiveData<String>().apply { value = "" }
     val releaseDate = MutableLiveData<String>().apply { value = "" }
     val posterPath = MutableLiveData<String>().apply { value = "" }
