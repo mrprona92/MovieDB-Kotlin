@@ -8,7 +8,7 @@
 
         <variable
             name="onClick"
-            type="com.tranhoabinh.framgia.moviedbkotlin.ui.screen.listmovie.ListMovieAdapter.OnItemClick" />
+            type="com.tranhoabinh.framgia.moviedbkotlin.core.BaseRecyclerAdapter.OnItemClick" />
 
         <variable
             name="item"

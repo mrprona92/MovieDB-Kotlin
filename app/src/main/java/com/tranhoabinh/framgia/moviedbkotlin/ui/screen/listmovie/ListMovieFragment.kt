@@ -6,6 +6,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tranhoabinh.framgia.moviedbkotlin.BR
 import com.tranhoabinh.framgia.moviedbkotlin.R
 import com.tranhoabinh.framgia.moviedbkotlin.core.BaseListFragment
+import com.tranhoabinh.framgia.moviedbkotlin.core.BaseRecyclerAdapter
 import com.tranhoabinh.framgia.moviedbkotlin.data.model.Movie
 import com.tranhoabinh.framgia.moviedbkotlin.databinding.FragmentListItemBinding
 import com.tranhoabinh.framgia.moviedbkotlin.ui.MainActivity
@@ -13,7 +14,7 @@ import com.tranhoabinh.framgia.moviedbkotlin.ui.screen.moviedetail.MovieDetailFr
 import com.tranhoabinh.framgia.moviedbkotlin.utils.EndlessScrollListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieViewModel, Movie>(), ListMovieAdapter.OnItemClick, SwipeRefreshLayout.OnRefreshListener {
+class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieViewModel, Movie>(), BaseRecyclerAdapter.OnItemClick, SwipeRefreshLayout.OnRefreshListener {
     companion object {
         const val TAG = "ListMovieFragment"
 

@@ -8,8 +8,7 @@ import com.tranhoabinh.framgia.moviedbkotlin.core.BaseFragment
 import com.tranhoabinh.framgia.moviedbkotlin.databinding.FragmentMovieDetailBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetailViewModel>(), SwipeRefreshLayout.OnRefreshListener {
-
+class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetailViewModel>(), SwipeRefreshLayout.OnRefreshListener, MovieDetailViewModel.OnItemClick {
     companion object {
         const val TAG = "MovieDetailFragment"
         const val MOVIE_ID = "movieId"
@@ -23,6 +22,8 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         }
     }
 
+    var movieId: String = ""
+
     override val viewModel by viewModel<MovieDetailViewModel>()
 
     override val bindingVariable: Int
@@ -34,10 +35,15 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
 
     override fun initContent(viewBinding: FragmentMovieDetailBinding) {
         viewBinding.viewModel = viewModel
-        val movieId = arguments?.getString(MOVIE_ID)
-        viewModel.apply { movieId?.let { requestMovieDetail(it) } }
+        movieId = arguments?.getString(MOVIE_ID) ?: ""
+        viewModel.apply { requestMovieDetail(movieId) }
+        viewModel.apply { requestCheckFavorite(movieId) }
     }
 
     override fun onRefresh() {
+    }
+
+    override fun onFavoriteClick() {
+        viewModel.handleFavoriteClick(movieId)
     }
 }

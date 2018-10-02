@@ -8,4 +8,12 @@ interface Repository {
     fun getMovieList(page: Int): Single<GetMoviesResponse>
 
     fun getMovieDetail(movieId: String): Single<Movie>
+
+    fun addFavoriteMovie(movie: Movie?): Long
+
+    fun updateFavoriteMovie(movie: Movie?): Int
+
+    fun findMovieById(movieId: String): Single<Movie>
+
+    fun getMovieFavorites(limit:Int, offset:Int): Single<List<Movie>>
 }

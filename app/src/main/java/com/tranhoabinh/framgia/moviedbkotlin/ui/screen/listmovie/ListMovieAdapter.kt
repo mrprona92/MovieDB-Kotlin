@@ -29,10 +29,6 @@ class ListMovieAdapter(private val listener: OnItemClick)
         }
     }
 
-    interface OnItemClick {
-        fun onMovieClick(movie: Movie)
-    }
-
     override fun handleClick(data: Movie) {
         listener.onMovieClick(data)
     }
