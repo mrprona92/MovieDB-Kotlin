@@ -19,7 +19,7 @@ object Constant {
 
 @BindingAdapter(value = ["loadImage", "placeholder", "fitCenter", "centerCrop"],
         requireAll = false)
-fun ImageView.setImageUrl(url: String?, placeholder: Drawable?, fitCenter: Boolean?, centerCrop: Boolean?) {
+fun ImageView.setImageUrl(url: String? = "", placeholder: Drawable?, fitCenter: Boolean?, centerCrop: Boolean?) {
     val options = RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
     if (TextUtils.isEmpty(url)) {
         setImageDrawable(placeholder)

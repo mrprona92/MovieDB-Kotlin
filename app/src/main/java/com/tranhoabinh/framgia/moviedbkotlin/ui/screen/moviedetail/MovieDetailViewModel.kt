@@ -12,11 +12,11 @@ class MovieDetailViewModel constructor(
 ) : BaseViewModel() {
 
 
-    val title: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
-    val releaseDate: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
-    val posterPath: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
-    val fullPath: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
-    val overview: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
+    val title = MutableLiveData<String>().apply { value = "" }
+    val releaseDate = MutableLiveData<String>().apply { value = "" }
+    val posterPath = MutableLiveData<String>().apply { value = "" }
+    val fullPath = MutableLiveData<String>().apply { value = "" }
+    val overview = MutableLiveData<String>().apply { value = "" }
 
 
     fun requestMovieDetail(movieId: String) {
