@@ -4,6 +4,7 @@ package com.tranhoabinh.framgia.moviedbkotlin.core
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.tranhoabinh.framgia.moviedbkotlin.data.model.Movie
 
 abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BaseViewHolder<ViewDataBinding>>() {
 
@@ -23,6 +24,10 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BaseViewHolder<View
     protected abstract fun bind(binding: ViewDataBinding, item: T)
 
     abstract fun handleClick(data: T)
+
+    interface OnItemClick {
+        fun onMovieClick(movie: Movie)
+    }
 
     private fun getItem(position: Int): T {
         return items[position]

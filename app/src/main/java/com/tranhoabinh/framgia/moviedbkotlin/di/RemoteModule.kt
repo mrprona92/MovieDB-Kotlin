@@ -21,7 +21,7 @@ val remoteModule = module(override = true) {
     single { createHeaderInterceptor() }
     single { createRetrofit(get(), get()) }
     single { createRemoteMovieService(get()) }
-    single<Repository> { RepositoryImpl(get()) }
+    single<Repository> { RepositoryImpl(get(), get()) }
 }
 
 
