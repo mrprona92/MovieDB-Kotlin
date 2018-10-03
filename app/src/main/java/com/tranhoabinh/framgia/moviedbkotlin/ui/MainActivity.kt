@@ -6,6 +6,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.tranhoabinh.framgia.moviedbkotlin.R
 import com.tranhoabinh.framgia.moviedbkotlin.core.BaseActivity
+import com.tranhoabinh.framgia.moviedbkotlin.ui.screen.listfavorite.ListFavoriteFragment
 import com.tranhoabinh.framgia.moviedbkotlin.ui.screen.listmovie.ListMovieFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -25,13 +26,13 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             when (item.itemId) {
                 R.id.action_movie_list -> replaceFragment(ListMovieFragment.newInstance(),
                         R.id.container)
-                R.id.action_movie_favorite -> replaceFragment(ListMovieFragment.newInstance(),
+                R.id.action_movie_favorite -> replaceFragment(ListFavoriteFragment.newInstance(),
                         R.id.container)
             }
             drawer_layout.closeDrawer(GravityCompat.START)
             true
         }
-        replaceFragment(ListMovieFragment.newInstance(),
+        replaceFragment(ListFavoriteFragment.newInstance(),
                 R.id.container)
     }
 

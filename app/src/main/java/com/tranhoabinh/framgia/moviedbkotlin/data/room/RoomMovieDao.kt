@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.tranhoabinh.framgia.moviedbkotlin.data.model.Movie
-import io.reactivex.Single
+import io.reactivex.Maybe
 
 @Dao
 interface RoomMovieDao {
@@ -17,8 +17,8 @@ interface RoomMovieDao {
     fun updateFavoriteMovie(vararg movie: Movie?): Int
 
     @Query("SELECT * FROM movie WHERE movie.id = :id LIMIT 1")
-    fun findById(id: String?): Single<Movie>
+    fun findById(id: String?): List<Movie>
 
     @Query("SELECT * FROM movie WHERE movie.isFavorite == 1 LIMIT :limit OFFSET :offset")
-    fun getFavoriteMovies(limit: Int, offset: Int): Single<List<Movie>>
+    fun getFavoriteMovies(limit: Int, offset: Int): Maybe<List<Movie>>
 }

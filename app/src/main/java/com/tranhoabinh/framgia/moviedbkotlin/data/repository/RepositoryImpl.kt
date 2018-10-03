@@ -4,9 +4,11 @@ import com.tranhoabinh.framgia.moviedbkotlin.data.model.Movie
 import com.tranhoabinh.framgia.moviedbkotlin.data.remote.RemoteMovieService
 import com.tranhoabinh.framgia.moviedbkotlin.data.remote.response.GetMoviesResponse
 import com.tranhoabinh.framgia.moviedbkotlin.data.room.RoomMovieDao
+import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.doAsync
 
 class RepositoryImpl constructor(
         private val remoteMovieService: RemoteMovieService,
@@ -25,19 +27,24 @@ class RepositoryImpl constructor(
     }
 
 
-    override fun addFavoriteMovie(movie: Movie?): Long {
-        return roomMovieDao.insertMovie(movie)
+    override fun addFavoriteMovie(movie: Movie?) {
+        doAsync {
+            roomMovieDao.insertMovie(movie)
+        }
     }
 
-    override fun updateFavoriteMovie(movie: Movie?): Int {
-        return roomMovieDao.updateFavoriteMovie(movie)
+
+    override fun updateFavoriteMovie(movie: Movie?) {
+        doAsync {
+            roomMovieDao.updateFavoriteMovie(movie)
+        }
     }
 
-    override fun getMovieFavorites(limit: Int, offset: Int): Single<List<Movie>> {
+    override fun getMovieFavorites(limit: Int, offset: Int): Maybe<List<Movie>> {
         return roomMovieDao.getFavoriteMovies(limit, offset)
     }
 
-    override fun findMovieById(movieId: String): Single<Movie> {
+    override fun findMovieById(movieId: String): List<Movie> {
         return roomMovieDao.findById(movieId)
     }
 }
