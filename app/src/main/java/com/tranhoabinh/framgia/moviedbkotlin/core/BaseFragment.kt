@@ -44,7 +44,7 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding, ViewModel : BaseViewM
 
     abstract fun initContent(viewBinding: ViewBinding)
 
-    open fun showErrorToast(message: String) {
-        DialogUtils.showErrorToast(context, message)
+    open fun showToast(message: String?) {
+        DialogUtils.showToast(context, message)
     }
 }

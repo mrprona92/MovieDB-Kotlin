@@ -10,7 +10,7 @@ import io.reactivex.Maybe
 
 @Dao
 interface RoomMovieDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertMovie(movie: Movie?): Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)

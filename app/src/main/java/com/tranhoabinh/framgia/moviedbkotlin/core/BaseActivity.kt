@@ -17,24 +17,26 @@ abstract class BaseActivity<ViewModel : BaseViewModel> : AppCompatActivity() {
 
     open fun addFragment(fragment: Fragment, container: Int, tag: String) {
         supportFragmentManager.beginTransaction().apply {
-            add(container, fragment)
+            add(container, fragment, tag)
             addToBackStack(tag)
             commit()
         }
+        title = tag
     }
 
     open fun replaceFragmentAddToBackStack(fragment: Fragment, container: Int, tag: String) {
         supportFragmentManager.beginTransaction().apply {
-            replace(container, fragment)
+            replace(container, fragment, tag)
             addToBackStack(tag)
             commit()
         }
     }
 
-    open fun replaceFragment(fragment: Fragment, container: Int) {
+    open fun replaceFragment(fragment: Fragment, container: Int, tag: String) {
         supportFragmentManager.beginTransaction().apply {
-            replace(container, fragment)
+            replace(container, fragment, tag)
             commit()
         }
+        title = tag
     }
 }

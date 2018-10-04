@@ -11,6 +11,8 @@ class ListMovieViewModel constructor(
         private val repository: Repository
 ) : BaseListViewModel<Movie>() {
 
+    val listItemBackup = ArrayList<Movie>()
+
     override fun requestData(page: Int) {
         compositeDisposable.add(
                 repository.getMovieList(page).subscribeOn(Schedulers.io())

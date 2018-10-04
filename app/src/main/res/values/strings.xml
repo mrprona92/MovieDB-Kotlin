@@ -3,4 +3,6 @@
     <string name="rating_label">Rating :</string>
     <string name="list_movie">List movie</string>
     <string name="list_favorite_movie">Favorite movie</string>
+    <string name="list_favorite_movie_added">This movie be added to favorite movies</string>
+    <string name="list_favorite_movie_remove">This movie be removed from favorite movies</string>
 </resources>

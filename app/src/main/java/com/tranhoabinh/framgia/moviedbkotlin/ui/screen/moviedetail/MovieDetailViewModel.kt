@@ -13,8 +13,9 @@ import org.jetbrains.anko.uiThread
 class MovieDetailViewModel constructor(
         private val repository: Repository
 ) : BaseViewModel() {
-    val movie = MutableLiveData<Movie>()
+    var movie = MutableLiveData<Movie>()
     val isFavorited = MutableLiveData<Boolean>()
+    val isFavoriteChanged = MutableLiveData<Boolean>()
     val isRefresh = MutableLiveData<Boolean>()
     val title = MutableLiveData<String>().apply { value = "" }
     val releaseDate = MutableLiveData<String>().apply { value = "" }
@@ -33,6 +34,7 @@ class MovieDetailViewModel constructor(
                         .doFinally {
                             isLoading.value = false
                             isRefresh.value = false
+                            requestCheckFavorite(movieId)
                         }
                         .subscribe({
                             title.value = it.title
@@ -47,7 +49,7 @@ class MovieDetailViewModel constructor(
                         }))
     }
 
-    fun requestCheckFavorite(movieId: String) {
+    private fun requestCheckFavorite(movieId: String) {
         doAsync {
             val movieList = repository.findMovieById(movieId)
             uiThread {
@@ -74,6 +76,7 @@ class MovieDetailViewModel constructor(
             }
             uiThread {
                 isFavorited.value = movie.value?.isFavorite
+                isFavoriteChanged.value = isFavorited.value
             }
         }
     }
