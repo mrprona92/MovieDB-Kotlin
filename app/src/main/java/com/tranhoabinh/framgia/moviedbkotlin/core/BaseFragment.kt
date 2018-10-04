@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.tranhoabinh.framgia.moviedbkotlin.utils.DialogUtils
 
 abstract class BaseFragment<ViewBinding : ViewDataBinding, ViewModel : BaseViewModel> : Fragment() {
     abstract val bindingVariable: Int
@@ -42,4 +43,8 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding, ViewModel : BaseViewM
     }
 
     abstract fun initContent(viewBinding: ViewBinding)
+
+    open fun showErrorToast(message: String) {
+        DialogUtils.showErrorToast(context, message)
+    }
 }

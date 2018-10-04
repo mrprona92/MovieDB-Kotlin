@@ -6,12 +6,16 @@ import com.tranhoabinh.framgia.moviedbkotlin.data.model.Movie
 import com.tranhoabinh.framgia.moviedbkotlin.data.repository.Repository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 
 class MovieDetailViewModel constructor(
         private val repository: Repository
 ) : BaseViewModel() {
     val movie = MutableLiveData<Movie>()
+    val isFavorited = MutableLiveData<Boolean>()
+    val isRefresh = MutableLiveData<Boolean>()
     val title = MutableLiveData<String>().apply { value = "" }
     val releaseDate = MutableLiveData<String>().apply { value = "" }
     val posterPath = MutableLiveData<String>().apply { value = "" }
@@ -22,9 +26,13 @@ class MovieDetailViewModel constructor(
         compositeDisposable.add(
                 repository.getMovieDetail(movieId).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe { isLoading.value = true }
+                        .doOnSubscribe {
+                            isLoading.value = true
+                            isRefresh.value = true
+                        }
                         .doFinally {
                             isLoading.value = false
+                            isRefresh.value = false
                         }
                         .subscribe({
                             title.value = it.title
@@ -33,40 +41,41 @@ class MovieDetailViewModel constructor(
                             fullPath.value = it.backdrop_path
                             overview.value = it.overview
                             movie.value = it
-                        }, { e -> onLoadFail(e) }))
+                            onLoadSuccess(0)
+                        }, { e ->
+                            onLoadFail(e)
+                        }))
     }
 
     fun requestCheckFavorite(movieId: String) {
-        compositeDisposable.add(
-                repository.findMovieById(movieId).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe { isLoading.value = true }
-                        .doFinally {
-                            isLoading.value = false
-                        }
-                        .subscribe({
-                            movie.value?.isFavorite = it.isFavorite
-                        }, { e -> onLoadFail(e) }))
+        doAsync {
+            val movieList = repository.findMovieById(movieId)
+            uiThread {
+                if (!movieList.isEmpty()) {
+                    val movieNew = movieList[0]
+                    movie.value = movieNew
+                    isFavorited.value = movieNew.isFavorite
+                }
+            }
+        }
     }
 
     fun handleFavoriteClick(movieId: String) {
-        compositeDisposable.add(
-                repository.findMovieById(movieId).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe { isLoading.value = true }
-                        .doFinally {
-                            isLoading.value = false
-                        }
-                        .subscribe({
-                            if (it == null) {
-                                movie.value?.isFavorite = true
-                                repository.addFavoriteMovie(movie.value)
-                            } else {
-                                movie.value?.apply { isFavorite = !isFavorite }
-                                repository.updateFavoriteMovie(movie.value)
-                            }
-                        }, { e -> onLoadFail(e) })
-        )
+        doAsync {
+            var movieList = repository.findMovieById(movieId)
+            if (movieList.isEmpty()) {
+                movie.value?.isFavorite = true
+                repository.addFavoriteMovie(movie.value)
+            } else {
+                movie.value?.apply {
+                    isFavorite = !isFavorite
+                    repository.updateFavoriteMovie(movie.value)
+                }
+            }
+            uiThread {
+                isFavorited.value = movie.value?.isFavorite
+            }
+        }
     }
 
     interface OnItemClick {

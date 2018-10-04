@@ -1,6 +1,7 @@
 package com.tranhoabinh.framgia.moviedbkotlin.ui.screen.moviedetail
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tranhoabinh.framgia.moviedbkotlin.BR
 import com.tranhoabinh.framgia.moviedbkotlin.R
@@ -35,14 +36,30 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
 
     override fun initContent(viewBinding: FragmentMovieDetailBinding) {
         viewBinding.viewModel = viewModel
+        viewBinding.onClick = this@MovieDetailFragment
         movieId = arguments?.getString(MOVIE_ID) ?: ""
         viewModel.apply {
             requestMovieDetail(movieId)
             requestCheckFavorite(movieId)
         }
+        viewBinding.apply {
+            swipeRefresh.setOnRefreshListener(this@MovieDetailFragment)
+        }
+        viewModel.isRefresh.observe(this, Observer {
+            viewBinding.swipeRefresh.apply {
+                isRefreshing = it == true
+            }
+        })
+        viewModel.errorMessage.observe(this, Observer {
+            showErrorToast(it)
+        })
     }
 
     override fun onRefresh() {
+        viewModel.apply {
+            requestMovieDetail(movieId)
+            requestCheckFavorite(movieId)
+        }
     }
 
     override fun onFavoriteClick() {

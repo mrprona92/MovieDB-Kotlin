@@ -4,13 +4,12 @@ import androidx.lifecycle.MutableLiveData
 
 abstract class BaseListViewModel<T> : BaseViewModel() {
     var currentPage = MutableLiveData<Int>().apply { value = 0 }
-    private val items = MutableLiveData<ArrayList<T>>()
     val isLoadMore = MutableLiveData<Boolean>().apply { value = false }
     val isRefresh = MutableLiveData<Boolean>().apply { value = false }
     val listItem = MutableLiveData<ArrayList<T>>()
 
     private fun isFirstLoading() = currentPage.value == 0
-            && (items.value == null || items.value?.size == 0)
+            && (listItem.value == null || listItem.value?.size == 0)
 
     fun initLoad() {
         if (isFirstLoading()) {
