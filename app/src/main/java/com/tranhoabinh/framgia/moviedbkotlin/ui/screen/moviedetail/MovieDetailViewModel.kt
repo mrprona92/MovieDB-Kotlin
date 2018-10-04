@@ -42,7 +42,6 @@ class MovieDetailViewModel constructor(
                             overview.value = it.overview
                             movie.value = it
                             onLoadSuccess(0)
-                            isRefresh.value = false
                         }, { e ->
                             onLoadFail(e)
                         }))

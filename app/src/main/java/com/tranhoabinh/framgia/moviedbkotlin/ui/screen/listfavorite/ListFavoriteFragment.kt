@@ -30,11 +30,9 @@ class ListFavoriteFragment : BaseListFragment<FragmentListItemBinding, ListFavor
 
     override fun initContent(viewBinding: FragmentListItemBinding) {
         viewBinding.viewModel = viewModel
-        viewModel.apply { initLoad() }
-        viewBinding.apply {
-            swipeRefresh.setOnRefreshListener(this@ListFavoriteFragment)
-        }
+        viewBinding.swipeRefresh.setOnRefreshListener(this@ListFavoriteFragment)
         viewModel.apply {
+            initLoad()
             val listMovieAdapter = ListMovieAdapter(this@ListFavoriteFragment)
             val lineaLayoutManager = LinearLayoutManager(context)
             var endlessScrollListener: EndlessScrollListener = object : EndlessScrollListener(lineaLayoutManager) {
@@ -55,9 +53,9 @@ class ListFavoriteFragment : BaseListFragment<FragmentListItemBinding, ListFavor
                         listMovieAdapter.refreshData(it)
                     }
                     false -> {
-                        val listAdd = viewModel.listLoadMoreFavorite.value ?: ArrayList()
+                        val listAdd = viewModel.listAdd.value ?: ArrayList()
                         if (!listAdd.isEmpty()) {
-                            listMovieAdapter.updateData(viewModel.listLoadMoreFavorite.value?.toMutableList()
+                            listMovieAdapter.updateData(viewModel.listAdd.value?.toMutableList()
                                     ?: mutableListOf())
                         }
                     }

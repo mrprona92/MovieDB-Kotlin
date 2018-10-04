@@ -13,7 +13,7 @@ class ListFavoriteViewModel constructor(
         private val repository: Repository
 ) : BaseListViewModel<Movie>() {
 
-    val listLoadMoreFavorite = MutableLiveData<ArrayList<Movie>>()
+    val listAdd = MutableLiveData<ArrayList<Movie>>()
 
     override fun requestData(page: Int) {
         compositeDisposable.add(
@@ -26,13 +26,13 @@ class ListFavoriteViewModel constructor(
                         }
                         .subscribe({ items ->
                             if (items.isEmpty()) {
-                                listLoadMoreFavorite.value?.clear()
+                                listAdd.value?.clear()
                                 listItem.value?.clear()
                             } else {
                                 if (currentPage.value == 1) listItem.value?.clear()
                                 currentPage.value = page
 
-                                listLoadMoreFavorite.value = ArrayList(items)
+                                listAdd.value = ArrayList(items)
 
                                 listItem.value = ArrayList(items)
                                 listItem.value?.size?.let { onLoadSuccess(page) }
