@@ -23,6 +23,7 @@ class ListFavoriteFragment : BaseListFragment<FragmentListItemBinding, ListFavor
         fun newInstance() = ListFavoriteFragment()
     }
 
+
     override val bindingVariable: Int
         get() = BR.viewModel
 
@@ -32,10 +33,12 @@ class ListFavoriteFragment : BaseListFragment<FragmentListItemBinding, ListFavor
         viewBinding.viewModel = viewModel
         viewBinding.swipeRefresh.setOnRefreshListener(this@ListFavoriteFragment)
         viewModel.apply {
-            initLoad()
+            when (isBackFromDetail) {
+                false -> initLoad()
+            }
             val listMovieAdapter = ListMovieAdapter(this@ListFavoriteFragment)
             val lineaLayoutManager = LinearLayoutManager(context)
-            var endlessScrollListener: EndlessScrollListener = object : EndlessScrollListener(lineaLayoutManager) {
+            val endlessScrollListener: EndlessScrollListener = object : EndlessScrollListener(lineaLayoutManager) {
                 override fun onLoadMore(currentPage: Int) {
                     viewModel.loadMore(currentPage)
                 }
@@ -69,8 +72,9 @@ class ListFavoriteFragment : BaseListFragment<FragmentListItemBinding, ListFavor
         })
 
         viewModel.errorMessage.observe(this, Observer {
-            showErrorToast(it)
+            showToast(it)
         })
+        activity?.title = tag
     }
 
     override fun onMovieClick(movie: Movie) {
@@ -79,6 +83,7 @@ class ListFavoriteFragment : BaseListFragment<FragmentListItemBinding, ListFavor
                 val movieDetailFragment = MovieDetailFragment.newInstance(movie.id)
                 replaceFragmentAddToBackStack(movieDetailFragment,
                         R.id.container, MovieDetailFragment.TAG)
+                isBackFromDetail = true
             }
     }
 
@@ -86,7 +91,14 @@ class ListFavoriteFragment : BaseListFragment<FragmentListItemBinding, ListFavor
         reloadData()
     }
 
-    open fun reloadData() {
+    private fun reloadData() {
         viewModel.refreshData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isBackFromDetail) {
+            reloadData()
+        }
     }
 }

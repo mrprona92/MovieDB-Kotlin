@@ -26,46 +26,53 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
 
     override val viewModel by viewModel<ListMovieViewModel>()
 
-
     override fun initContent(viewBinding: FragmentListItemBinding) {
-        viewBinding.viewModel = viewModel;
-        viewModel.apply { initLoad() }
-        viewBinding.apply {
-            swipeRefresh.setOnRefreshListener(this@ListMovieFragment)
-        }
+        viewBinding.viewModel = viewModel
+        viewBinding.swipeRefresh.setOnRefreshListener(this@ListMovieFragment)
         viewModel.apply {
+            initLoad()
             val listMovieAdapter = ListMovieAdapter(this@ListMovieFragment)
             val lineaLayoutManager = LinearLayoutManager(context)
-            var endlessScrollListener: EndlessScrollListener = object : EndlessScrollListener(lineaLayoutManager) {
+            val endlessScrollListener: EndlessScrollListener = object : EndlessScrollListener(lineaLayoutManager) {
                 override fun onLoadMore(currentPage: Int) {
                     viewModel.loadMore(currentPage)
                 }
             }
-
             viewBinding.recyclerView.apply {
                 layoutManager = lineaLayoutManager
                 this.adapter = listMovieAdapter
                 addOnScrollListener(endlessScrollListener)
             }
             listItem.observe(this@ListMovieFragment, Observer {
-                when (isRefresh.value) {
-                    true -> {
-                        endlessScrollListener.resetIndex()
-                        listMovieAdapter.refreshData(it)
+                if (!isBackFromDetail) {
+                    when (isRefresh.value) {
+                        true -> {
+                            endlessScrollListener.resetIndex()
+                            listMovieAdapter.refreshData(it)
+                            listItemBackup.clear()
+                            listItemBackup.addAll(it)
+                        }
+                        false -> {
+                            listMovieAdapter.updateData(it)
+                            listItemBackup.addAll(it)
+                        }
                     }
-                    false -> listMovieAdapter.updateData(it)
+                } else {
+                    //When back from detail screen reload with data backup
+                    listMovieAdapter.updateData(listItemBackup)
                 }
             })
-        }
-        viewModel.isRefresh.observe(this, Observer {
-            viewBinding.swipeRefresh.apply {
-                isRefreshing = it == true
-            }
-        })
 
-        viewModel.errorMessage.observe(this, Observer {
-            showErrorToast(it)
-        })
+            isRefresh.observe(this@ListMovieFragment, Observer {
+                viewBinding.swipeRefresh.apply {
+                    isRefreshing = it == true
+                }
+            })
+            errorMessage.observe(this@ListMovieFragment, Observer {
+                showToast(it)
+            })
+        }
+        activity?.title = tag
     }
 
     override fun onMovieClick(movie: Movie) {
@@ -74,6 +81,7 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
                 val movieDetailFragment = MovieDetailFragment.newInstance(movie.id)
                 replaceFragmentAddToBackStack(movieDetailFragment,
                         R.id.container, MovieDetailFragment.TAG)
+                isBackFromDetail = true
             }
     }
 
