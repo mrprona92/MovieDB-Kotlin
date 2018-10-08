@@ -50,9 +50,6 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
                     isRefreshing = it == true
                 }
             })
-            errorMessage.observe(this@MovieDetailFragment, Observer {
-                showToast(it)
-            })
             isFavoriteChanged.observe(this@MovieDetailFragment, Observer {
                 when (it) {
                     true -> showToast(context?.getString(R.string.list_favorite_movie_added))

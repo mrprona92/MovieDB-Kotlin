@@ -1,13 +1,12 @@
 package com.tranhoabinh.framgia.moviedbkotlin.utils
 
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-abstract class EndlessScrollListener(private val mLinearLayoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
+abstract class EndlessScrollListener(private val mLinearLayoutManager: GridLayoutManager,var loading: Boolean) : RecyclerView.OnScrollListener() {
     private var previousTotal = 0
-    private var loading = true
-    private val visibleThreshold = 5
+    private val visibleThreshold = 8
     var firstVisibleItem: Int = 0
     var visibleItemCount: Int = 0
     var totalItemCount: Int = 0
@@ -38,12 +37,18 @@ abstract class EndlessScrollListener(private val mLinearLayoutManager: LinearLay
 
     abstract fun onLoadMore(currentPage: Int)
 
+    fun restoreIndex(page: Int) {
+        currentPage = page
+        loading = false
+    }
+
     fun resetIndex() {
         currentPage = 1
         totalItemCount = 0
         previousTotal = 0
         firstVisibleItem = 0
         visibleItemCount = 0
+        loading = false
     }
 
     companion object {

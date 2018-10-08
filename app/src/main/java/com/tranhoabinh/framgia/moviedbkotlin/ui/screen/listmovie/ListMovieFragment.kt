@@ -1,7 +1,7 @@
 package com.tranhoabinh.framgia.moviedbkotlin.ui.screen.listmovie
 
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tranhoabinh.framgia.moviedbkotlin.BR
 import com.tranhoabinh.framgia.moviedbkotlin.R
@@ -26,28 +26,40 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
 
     override val viewModel by viewModel<ListMovieViewModel>()
 
+    private var endlessScrollListener: EndlessScrollListener? = null
+
     override fun initContent(viewBinding: FragmentListItemBinding) {
         viewBinding.viewModel = viewModel
         viewBinding.swipeRefresh.setOnRefreshListener(this@ListMovieFragment)
         viewModel.apply {
-            initLoad()
             val listMovieAdapter = ListMovieAdapter(this@ListMovieFragment)
-            val lineaLayoutManager = LinearLayoutManager(context)
-            val endlessScrollListener: EndlessScrollListener = object : EndlessScrollListener(lineaLayoutManager) {
+            val gridLayoutManager = GridLayoutManager(context, 2)
+
+            viewBinding.recyclerView.apply {
+                layoutManager = gridLayoutManager
+                this.adapter = listMovieAdapter
+            }
+
+            endlessScrollListener = object : EndlessScrollListener(gridLayoutManager, viewModel.isLoading.value
+                    ?: false) {
                 override fun onLoadMore(currentPage: Int) {
+                    isLoadMore.value = true
                     viewModel.loadMore(currentPage)
+                    viewModel.currentPageBackup = currentPage
                 }
             }
-            viewBinding.recyclerView.apply {
-                layoutManager = lineaLayoutManager
-                this.adapter = listMovieAdapter
-                addOnScrollListener(endlessScrollListener)
+            viewBinding.recyclerView.addOnScrollListener(endlessScrollListener as EndlessScrollListener)
+
+            if (!isBackFromDetail) {
+                initLoad()
+            } else {
+                (endlessScrollListener as EndlessScrollListener).restoreIndex(viewModel.currentPageBackup)
             }
+
             listItem.observe(this@ListMovieFragment, Observer {
                 if (!isBackFromDetail) {
                     when (isRefresh.value) {
                         true -> {
-                            endlessScrollListener.resetIndex()
                             listMovieAdapter.refreshData(it)
                             listItemBackup.clear()
                             listItemBackup.addAll(it)
@@ -60,6 +72,7 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
                 } else {
                     //When back from detail screen reload with data backup
                     listMovieAdapter.updateData(listItemBackup)
+                    isBackFromDetail = false
                 }
             })
 
@@ -67,9 +80,6 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
                 viewBinding.swipeRefresh.apply {
                     isRefreshing = it == true
                 }
-            })
-            errorMessage.observe(this@ListMovieFragment, Observer {
-                showToast(it)
             })
         }
         activity?.title = tag
@@ -86,6 +96,15 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
     }
 
     override fun onRefresh() {
+        viewModel.currentPageBackup = 1
         viewModel.refreshData()
+        endlessScrollListener?.resetIndex()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.listItem.removeObservers(this)
+        viewModel.isLoading.removeObservers(this)
+        viewModel.isRefresh.removeObservers(this)
     }
 }

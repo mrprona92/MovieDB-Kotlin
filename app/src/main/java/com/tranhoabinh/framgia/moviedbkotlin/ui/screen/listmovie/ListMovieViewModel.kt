@@ -12,6 +12,7 @@ class ListMovieViewModel constructor(
 ) : BaseListViewModel<Movie>() {
 
     val listItemBackup = ArrayList<Movie>()
+    var currentPageBackup: Int = 1
 
     override fun requestData(page: Int) {
         compositeDisposable.add(

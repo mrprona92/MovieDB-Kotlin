@@ -18,26 +18,25 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp_200"
         android:layout_height="wrap_content"
         android:onClick="@{()-> onClick.onMovieClick(item)}"
         android:padding="@dimen/dp_5">
 
         <TextView
             android:id="@+id/movie_popular"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_4"
-            android:layout_marginTop="@dimen/dp_4"
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="@dimen/dp_10"
             android:text="@{item.title}"
+            android:textAlignment="center"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="The Lord of The Ring" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -55,30 +54,13 @@
             bind:loadImage="@{ item.poster_path }"
             bind:placeholder="@{ R.drawable.ic_launcher_background }" />
 
-        <TextView
-            android:id="@+id/movie_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_3"
-            android:layout_marginEnd="@dimen/dp_4"
-            android:layout_marginBottom="@dimen/dp_4"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="@dimen/dp_10"
-            android:text="@{Double.toString(item.vote_average)}"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="@color/red"
-            android:textSize="@dimen/sp_20"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_movie_poster"
-            tools:text="5.8" />
 
         <TextView
+            android:id="@+id/label_movie_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_30"
             android:layout_marginTop="@dimen/dp_3"
-            android:layout_marginEnd="@dimen/dp_56"
             android:layout_marginBottom="@dimen/dp_4"
             android:ellipsize="end"
             android:maxLines="1"
@@ -86,12 +68,30 @@
             android:text="@string/rating_label"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@color/red"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_14"
             app:layout_constraintVertical_bias="0.0"
             bind:layout_constraintBottom_toBottomOf="parent"
-            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
             bind:layout_constraintTop_toBottomOf="@+id/image_movie_poster"
             tools:text="Rating :" />
+
+        <TextView
+            android:id="@+id/movie_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_110"
+            android:layout_marginTop="@dimen/dp_3"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="@dimen/dp_10"
+            android:text="@{Double.toString(item.vote_average)}"
+            android:textAlignment="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/red"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_movie_poster"
+            tools:text="5.8" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
