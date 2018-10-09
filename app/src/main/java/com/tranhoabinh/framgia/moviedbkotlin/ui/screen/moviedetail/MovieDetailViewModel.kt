@@ -69,7 +69,7 @@ class MovieDetailViewModel constructor(
                 repository.addFavoriteMovie(movie.value)
             } else {
                 movie.value?.apply {
-                    isFavorite = !isFavorite!!
+                    isFavorite = !isFavorite
                     repository.updateFavoriteMovie(movie.value)
                 }
             }

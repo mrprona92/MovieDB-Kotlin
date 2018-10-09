@@ -37,15 +37,13 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
 
             viewBinding.recyclerView.apply {
                 layoutManager = gridLayoutManager
-                this.adapter = listMovieAdapter
+                adapter = listMovieAdapter
             }
 
-            endlessScrollListener = object : EndlessScrollListener(gridLayoutManager, viewModel.isLoading.value
-                    ?: false) {
+            endlessScrollListener = object : EndlessScrollListener(gridLayoutManager) {
                 override fun onLoadMore(currentPage: Int) {
                     isLoadMore.value = true
                     viewModel.loadMore(currentPage)
-                    viewModel.currentPageBackup = currentPage
                 }
             }
             viewBinding.recyclerView.addOnScrollListener(endlessScrollListener as EndlessScrollListener)
@@ -53,7 +51,8 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
             if (!isBackFromDetail) {
                 initLoad()
             } else {
-                (endlessScrollListener as EndlessScrollListener).restoreIndex(viewModel.currentPageBackup)
+                (endlessScrollListener as EndlessScrollListener).restoreIndex(viewModel.currentPage.value
+                        ?: 1)
             }
 
             listItem.observe(this@ListMovieFragment, Observer {
@@ -81,6 +80,16 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
                     isRefreshing = it == true
                 }
             })
+
+            isLoadFailed.observe(this@ListMovieFragment, Observer {
+                when (isLoadFailed.value) {
+                    true -> {
+                        (endlessScrollListener as EndlessScrollListener).apply {
+                            restoreIndex(viewModel.currentPage.value ?: 1)
+                        }
+                    }
+                }
+            })
         }
         activity?.title = tag
     }
@@ -96,7 +105,6 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
     }
 
     override fun onRefresh() {
-        viewModel.currentPageBackup = 1
         viewModel.refreshData()
         endlessScrollListener?.resetIndex()
     }

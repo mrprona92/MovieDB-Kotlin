@@ -4,12 +4,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-abstract class EndlessScrollListener(private val mLinearLayoutManager: GridLayoutManager,var loading: Boolean) : RecyclerView.OnScrollListener() {
+abstract class EndlessScrollListener(private val mLinearLayoutManager: GridLayoutManager) : RecyclerView.OnScrollListener() {
     private var previousTotal = 0
     private val visibleThreshold = 8
     var firstVisibleItem: Int = 0
     var visibleItemCount: Int = 0
     var totalItemCount: Int = 0
+    var loading: Boolean = false
 
     private var currentPage = 1
 

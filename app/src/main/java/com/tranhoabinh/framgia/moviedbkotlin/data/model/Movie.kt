@@ -29,5 +29,5 @@ class Movie(
         val video: Boolean? = false,
         val vote_average: Double? = 0.0,
         val vote_count: Int? = 0,
-        var isFavorite: Boolean? = false
+        var isFavorite: Boolean = false
 ) : Parcelable
