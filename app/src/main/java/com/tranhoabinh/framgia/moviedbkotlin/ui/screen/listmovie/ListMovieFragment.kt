@@ -39,19 +39,17 @@ class ListMovieFragment : BaseListFragment<FragmentListItemBinding, ListMovieVie
                 layoutManager = gridLayoutManager
                 adapter = listMovieAdapter
             }
+            val endlessScrollListener = EndlessScrollListener(onLoadMore = {
+                isLoadMore.value = true
+                viewModel.loadMore(it)
+            }, gridLayoutManager = gridLayoutManager)
 
-            endlessScrollListener = object : EndlessScrollListener(gridLayoutManager) {
-                override fun onLoadMore(currentPage: Int) {
-                    isLoadMore.value = true
-                    viewModel.loadMore(currentPage)
-                }
-            }
-            viewBinding.recyclerView.addOnScrollListener(endlessScrollListener as EndlessScrollListener)
+            viewBinding.recyclerView.addOnScrollListener(endlessScrollListener)
 
             if (!isBackFromDetail) {
                 initLoad()
             } else {
-                (endlessScrollListener as EndlessScrollListener).restoreIndex(viewModel.currentPage.value
+                endlessScrollListener.restoreIndex(viewModel.currentPage.value
                         ?: 1)
             }
 

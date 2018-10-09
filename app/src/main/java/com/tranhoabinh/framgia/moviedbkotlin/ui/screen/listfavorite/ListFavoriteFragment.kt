@@ -38,11 +38,10 @@ class ListFavoriteFragment : BaseListFragment<FragmentListItemBinding, ListFavor
             }
             val listMovieAdapter = ListMovieAdapter(this@ListFavoriteFragment)
             val gridLayoutManager = GridLayoutManager(context, 2)
-            val endlessScrollListener: EndlessScrollListener = object : EndlessScrollListener(gridLayoutManager) {
-                override fun onLoadMore(currentPage: Int) {
-                    viewModel.loadMore(currentPage)
-                }
-            }
+
+            val endlessScrollListener = EndlessScrollListener(onLoadMore = {
+                viewModel.loadMore(it)
+            }, gridLayoutManager = gridLayoutManager)
 
             viewBinding.recyclerView.apply {
                 layoutManager = gridLayoutManager

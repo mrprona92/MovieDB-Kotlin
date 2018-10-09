@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-abstract class EndlessScrollListener(private val mLinearLayoutManager: GridLayoutManager) : RecyclerView.OnScrollListener() {
+class EndlessScrollListener(val onLoadMore: (page:Int) -> Unit , private val gridLayoutManager: GridLayoutManager) : RecyclerView.OnScrollListener() {
     private var previousTotal = 0
     private val visibleThreshold = 8
     var firstVisibleItem: Int = 0
@@ -17,8 +17,8 @@ abstract class EndlessScrollListener(private val mLinearLayoutManager: GridLayou
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
         visibleItemCount = recyclerView.childCount
-        totalItemCount = mLinearLayoutManager.itemCount
-        firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition()
+        totalItemCount = gridLayoutManager.itemCount
+        firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition()
 
         if (loading) {
             if (totalItemCount > previousTotal) {
@@ -30,13 +30,11 @@ abstract class EndlessScrollListener(private val mLinearLayoutManager: GridLayou
 
             currentPage++
 
-            onLoadMore(currentPage)
+            onLoadMore.invoke(currentPage)
 
             loading = true
         }
     }
-
-    abstract fun onLoadMore(currentPage: Int)
 
     fun restoreIndex(page: Int) {
         currentPage = page
