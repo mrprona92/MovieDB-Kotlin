@@ -1,24 +1,24 @@
 package com.tranhoabinh.framgia.moviedbkotlin.utils
 
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-abstract class EndlessScrollListener(private val mLinearLayoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
+class EndlessScrollListener(val onLoadMore: (page:Int) -> Unit , private val gridLayoutManager: GridLayoutManager) : RecyclerView.OnScrollListener() {
     private var previousTotal = 0
-    private var loading = true
-    private val visibleThreshold = 5
+    private val visibleThreshold = 8
     var firstVisibleItem: Int = 0
     var visibleItemCount: Int = 0
     var totalItemCount: Int = 0
+    var loading: Boolean = false
 
     private var currentPage = 1
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
         visibleItemCount = recyclerView.childCount
-        totalItemCount = mLinearLayoutManager.itemCount
-        firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition()
+        totalItemCount = gridLayoutManager.itemCount
+        firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition()
 
         if (loading) {
             if (totalItemCount > previousTotal) {
@@ -30,13 +30,16 @@ abstract class EndlessScrollListener(private val mLinearLayoutManager: LinearLay
 
             currentPage++
 
-            onLoadMore(currentPage)
+            onLoadMore.invoke(currentPage)
 
             loading = true
         }
     }
 
-    abstract fun onLoadMore(currentPage: Int)
+    fun restoreIndex(page: Int) {
+        currentPage = page
+        loading = false
+    }
 
     fun resetIndex() {
         currentPage = 1
@@ -44,6 +47,7 @@ abstract class EndlessScrollListener(private val mLinearLayoutManager: LinearLay
         previousTotal = 0
         firstVisibleItem = 0
         visibleItemCount = 0
+        loading = false
     }
 
     companion object {

@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tranhoabinh.framgia.moviedbkotlin.utils.DialogUtils
 
 abstract class BaseFragment<ViewBinding : ViewDataBinding, ViewModel : BaseViewModel> : Fragment() {
@@ -37,14 +38,28 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding, ViewModel : BaseViewM
         }
     }
 
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.apply {
+            errorMessage.observe(this@BaseFragment, Observer {
+                if (!it.isNullOrEmpty()) {
+                    showToast(it)
+                    errorMessage.value = ""
+                }
+            })
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        viewModel.errorMessage.removeObservers(this)
         viewModel.onActivityDestroyed()
     }
 
     abstract fun initContent(viewBinding: ViewBinding)
 
     open fun showToast(message: String?) {
-        DialogUtils.showToast(context, message)
+        DialogUtils.showToast(activity, message)
     }
 }

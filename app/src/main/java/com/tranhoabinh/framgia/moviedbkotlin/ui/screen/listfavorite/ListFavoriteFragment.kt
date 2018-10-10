@@ -1,7 +1,7 @@
 package com.tranhoabinh.framgia.moviedbkotlin.ui.screen.listfavorite
 
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tranhoabinh.framgia.moviedbkotlin.BR
 import com.tranhoabinh.framgia.moviedbkotlin.R
@@ -37,16 +37,15 @@ class ListFavoriteFragment : BaseListFragment<FragmentListItemBinding, ListFavor
                 false -> initLoad()
             }
             val listMovieAdapter = ListMovieAdapter(this@ListFavoriteFragment)
-            val lineaLayoutManager = LinearLayoutManager(context)
-            val endlessScrollListener: EndlessScrollListener = object : EndlessScrollListener(lineaLayoutManager) {
-                override fun onLoadMore(currentPage: Int) {
-                    viewModel.loadMore(currentPage)
-                }
-            }
+            val gridLayoutManager = GridLayoutManager(context, 2)
+
+            val endlessScrollListener = EndlessScrollListener(onLoadMore = {
+                viewModel.loadMore(it)
+            }, gridLayoutManager = gridLayoutManager)
 
             viewBinding.recyclerView.apply {
-                layoutManager = lineaLayoutManager
-                this.adapter = listMovieAdapter
+                layoutManager = gridLayoutManager
+                adapter = listMovieAdapter
                 addOnScrollListener(endlessScrollListener)
             }
             listItem.observe(this@ListFavoriteFragment, Observer {
@@ -71,9 +70,6 @@ class ListFavoriteFragment : BaseListFragment<FragmentListItemBinding, ListFavor
             }
         })
 
-        viewModel.errorMessage.observe(this, Observer {
-            showToast(it)
-        })
         activity?.title = tag
     }
 

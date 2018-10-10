@@ -14,6 +14,6 @@ val roomModule = module(override = true) {
 
 fun createDatabaseName() = RoomContract.DATABASE_MOVIE
 
-fun createAppDatabase(dbName: String, context: Context) = Room.databaseBuilder(context, RoomMovieDataSource::class.java, dbName).build()
+fun createAppDatabase(dbName: String, context: Context) = Room.databaseBuilder(context, RoomMovieDataSource::class.java, dbName).fallbackToDestructiveMigration().build()
 
 fun createMovieDao(appDatabase: RoomMovieDataSource) = appDatabase.movieDao()

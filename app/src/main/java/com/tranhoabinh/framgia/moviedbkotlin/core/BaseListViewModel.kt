@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 abstract class BaseListViewModel<T> : BaseViewModel() {
     var currentPage = MutableLiveData<Int>().apply { value = 0 }
     val isLoadMore = MutableLiveData<Boolean>().apply { value = false }
+    val isLoadFailed = MutableLiveData<Boolean>().apply { value = false }
     val isRefresh = MutableLiveData<Boolean>().apply { value = false }
     val listItem = MutableLiveData<ArrayList<T>>()
 
@@ -36,12 +37,15 @@ abstract class BaseListViewModel<T> : BaseViewModel() {
         super.onLoadSuccess(page)
         isLoadMore.value = false
         isRefresh.value = false
-        this.currentPage.value = page
+        isLoadFailed.value = false
+        currentPage.value = page
     }
 
     override fun onLoadFail(e: Throwable) {
         super.onLoadFail(e)
         isRefresh.value = false
         isLoadMore.value = false
+        isLoadFailed.value = true
+        currentPage.value?.minus(1)
     }
 }

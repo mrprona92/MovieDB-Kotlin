@@ -29,7 +29,6 @@ class MovieDetailViewModel constructor(
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe {
                             isLoading.value = true
-                            isRefresh.value = true
                         }
                         .doFinally {
                             isLoading.value = false
